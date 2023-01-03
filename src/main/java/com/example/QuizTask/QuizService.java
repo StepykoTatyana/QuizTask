@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class QuizService {
@@ -57,11 +58,12 @@ public class QuizService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<?> getSolveWithId(long idUser, int answer) {
+    public ResponseEntity<?> getSolveWithId(long idUser, List<Integer> answer) {
         Feedback feedback = new Feedback();
         for (Quiz quiz : list) {
             if (quiz.getId() == idUser) {
-                if (quiz.getAnswer() == answer) {
+                if ((quiz.getAnswer() == null && (answer == null || answer.size() == 0))
+                        || Objects.equals(quiz.getAnswer(), answer)) {
                     feedback.setSuccess(true);
                     feedback.setFeedback("Congratulations, you're right!");
                 } else {
