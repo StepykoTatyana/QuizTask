@@ -64,22 +64,24 @@ public class Quiz {
     @ElementCollection
     @CollectionTable(name = "OPTIONS", joinColumns = @JoinColumn(name = "quiz_id"))
     @Column(name = "options")
-    @Size(min = 4)
+    @Size(min = 2)
     @OrderColumn
     private List<String> options;
 
-    @Column
-    @NotNull
-    @NotEmpty
+
+    @ElementCollection
+    @CollectionTable(name = "ANSWERS", joinColumns = @JoinColumn(name = "quiz_id"))
+    @Column(name = "answers")
+    @OrderColumn
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private int answer;
+    private List<Integer> answer;
 
 
-    public int getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 

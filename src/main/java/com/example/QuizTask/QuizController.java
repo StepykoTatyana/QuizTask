@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class QuizController {
 
@@ -22,7 +24,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes")
-    public  ResponseEntity<?> createQuestionUser(@RequestBody() Quiz quiz) {
+    public  ResponseEntity<?> createQuestionUser(@Validated @RequestBody() Quiz quiz) {
         return quizService.createQuestion(quiz);
     }
 
@@ -37,7 +39,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    public  ResponseEntity<?> postAnswerWithId(@PathVariable long id, @RequestParam() int answer) {
-        return quizService.getSolveWithId(id, answer);
+    public  ResponseEntity<?> postAnswerWithId(@PathVariable long id, @RequestBody() Answer answer) {
+        return quizService.getSolveWithId(id, answer.getAnswer());
     }
 }

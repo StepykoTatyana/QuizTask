@@ -1,13 +1,15 @@
 package com.example.QuizTask;
 
-public class Answer {
-    private String answer;
+import java.util.List;
 
-    public String getAnswer() {
+public class Answer {
+    private List<Integer> answer;
+
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 
