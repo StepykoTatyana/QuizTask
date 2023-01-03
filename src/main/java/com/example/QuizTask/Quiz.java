@@ -1,6 +1,6 @@
 package com.example.QuizTask;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -11,7 +11,6 @@ public class Quiz {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
 
@@ -67,7 +66,22 @@ public class Quiz {
     @Column(name = "options")
     @Size(min = 4)
     @OrderColumn
-    private List<String>  options;
+    private List<String> options;
+
+    @Column
+    @NotNull
+    @NotEmpty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private int answer;
+
+
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
 
     public Long getId() {
         return id;
@@ -76,8 +90,6 @@ public class Quiz {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
 
 }
