@@ -17,7 +17,27 @@ public class QuizController {
     }
 
     @PostMapping("/api/quiz")
-    public  ResponseEntity<?> postRecipes(@RequestParam() String answer) {
+    public  ResponseEntity<?> postAnswer(@RequestParam() String answer) {
         return quizService.saveAnswer(answer);
+    }
+
+    @PostMapping("/api/quizzes")
+    public  ResponseEntity<?> createQuestionUser(@RequestBody() Quiz quiz) {
+        return quizService.createQuestion(quiz);
+    }
+
+    @GetMapping("/api/quizzes")
+    public  ResponseEntity<?> getQuestion() {
+        return quizService.getQuestions();
+    }
+
+    @GetMapping("/api/quiz/{id}")
+    public ResponseEntity<?> getById(@PathVariable long id) {
+        return quizService.getQuestionById(id);
+    }
+
+    @PostMapping("/api/quizzes/{id}/solve")
+    public  ResponseEntity<?> postAnswerWithId(@PathVariable long id, @RequestParam() int answer) {
+        return quizService.getSolveWithId(id, answer);
     }
 }
