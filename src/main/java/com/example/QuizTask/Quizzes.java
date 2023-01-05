@@ -7,10 +7,10 @@ import jakarta.validation.constraints.*;
 import java.util.List;
 
 @Entity
-public class Quiz {
+public class Quizzes {
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(columnDefinition = "bigint not null")
     private Long id;
 
 
@@ -24,7 +24,7 @@ public class Quiz {
         return title;
     }
 
-    public Quiz() {
+    public Quizzes() {
     }
 
     public void setTitle(String title) {
@@ -53,10 +53,11 @@ public class Quiz {
     @NotBlank
     private String text;
 
-    public Quiz(String title, String text, List<String> options) {
+    public Quizzes(String title, String text, List<String> options, List<Integer> answer) {
         this.title = title;
         this.text = text;
         this.options = options;
+        this.answer = answer;
     }
 
     @NotNull
@@ -65,14 +66,14 @@ public class Quiz {
     @CollectionTable(name = "OPTIONS", joinColumns = @JoinColumn(name = "quiz_id"))
     @Column(name = "options")
     @Size(min = 2)
-    @OrderColumn
+//    @OrderColumn
     private List<String> options;
 
 
     @ElementCollection
     @CollectionTable(name = "ANSWERS", joinColumns = @JoinColumn(name = "quiz_id"))
     @Column(name = "answers")
-    @OrderColumn
+//    @OrderColumn
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Integer> answer;
 
