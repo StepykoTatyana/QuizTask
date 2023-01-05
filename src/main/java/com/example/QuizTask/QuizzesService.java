@@ -4,22 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 public class QuizzesService {
 
     @Autowired
     QuizzesRepository repository;
-
-    //    Quizzes quizzes = new Quizzes();
-    //long id = 1;
-    // List<Quizzes> list = new ArrayList<>();
 
     public ResponseEntity<?> saveAnswer(String answer) {
         Feedback feedback = new Feedback();
@@ -34,20 +27,9 @@ public class QuizzesService {
         return new ResponseEntity<>(feedback, HttpStatus.OK);
     }
 
-//    public ResponseEntity<?> getQuestion() {
-//        quizzes.setTitle("The Java Logo");
-//        quizzes.setText("What is depicted on the Java logo?");
-//        quizzes.setOptions(List.of(new String[]{"Robot", "Tea leaf", "Cup of coffee", "Bug"}));
-//        return new ResponseEntity<>(quizzes, HttpStatus.OK);
-//    }
-
-    public ResponseEntity<?> createQuestion(Quizzes quizzes) {
-        //quizzes.setId(id);
-//        System.out.println(quizzes.getAnswer());
-        //id++;
-        //list.add(quizzes);
+    public ResponseEntity<?> createQuestion(Quizzes quizzes, String email) {
         repository.save(new Quizzes(quizzes.getTitle(), quizzes.getText(),
-                quizzes.getOptions(), quizzes.getAnswer()));
+                quizzes.getOptions(), quizzes.getAnswer(), email));
         quizzes.setId(repository.lastId());
         return new ResponseEntity<>(quizzes, HttpStatus.OK);
     }
@@ -84,4 +66,10 @@ public class QuizzesService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public void deleteById(long id) {
+        repository.deleteById(id);
+    }
+
+
 }

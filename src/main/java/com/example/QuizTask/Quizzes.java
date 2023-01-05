@@ -1,8 +1,10 @@
 package com.example.QuizTask;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 
 import java.util.List;
 
@@ -53,11 +55,13 @@ public class Quizzes {
     @NotBlank
     private String text;
 
-    public Quizzes(String title, String text, List<String> options, List<Integer> answer) {
+    public Quizzes(String title, String text, List<String> options,
+                   List<Integer> answer, String email) {
         this.title = title;
         this.text = text;
         this.options = options;
         this.answer = answer;
+        this.email = email;
     }
 
     @NotNull
@@ -77,6 +81,18 @@ public class Quizzes {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Integer> answer;
 
+
+    @Column
+    @JsonIgnore
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public List<Integer> getAnswer() {
         return answer;
