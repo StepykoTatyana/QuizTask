@@ -81,6 +81,20 @@ public class Quizzes {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Integer> answer;
 
+    @ElementCollection
+    @CollectionTable(name = "EMAILS", joinColumns = @JoinColumn(name = "quiz_id"))
+    @Column(name = "emails")
+    @JsonIgnore
+//    @OrderColumn
+    private List<String> emails;
+
+    public List<String> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<String> emails) {
+        this.emails = emails;
+    }
 
     @Column
     @JsonIgnore

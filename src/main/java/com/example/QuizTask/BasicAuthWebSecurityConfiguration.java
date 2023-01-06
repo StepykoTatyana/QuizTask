@@ -21,7 +21,7 @@ public class BasicAuthWebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/api/register**").permitAll()
-                .requestMatchers("/h2/**").permitAll()
+                .requestMatchers("/h2").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
