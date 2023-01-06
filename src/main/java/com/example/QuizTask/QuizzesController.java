@@ -24,8 +24,16 @@ public class QuizzesController {
     }
 
     @GetMapping("/api/quizzes")
-    public  ResponseEntity<?> getQuestion(@AuthenticationPrincipal UserDetails details) {
-        return quizzesService.getQuestions();
+    public  ResponseEntity<?> getQuestion(@AuthenticationPrincipal UserDetails details,
+                                          @RequestParam(defaultValue = "0") Integer pageNo,
+                                          @RequestParam(defaultValue = "10") Integer pageSize,
+                                          @RequestParam(defaultValue = "id") String sortBy) {
+        return quizzesService.getQuestionsWithPage(pageNo, pageSize);
+    }
+
+    @GetMapping("/api/quizzes/completed")
+    public  ResponseEntity<?> getQuestionCompleted(@AuthenticationPrincipal UserDetails details) {
+        return quizzesService.getCompletedAnswers();
     }
 
     @GetMapping("/api/quizzes/{id}")
@@ -37,14 +45,14 @@ public class QuizzesController {
     @PostMapping("/api/quizzes/{id}/solve")
     public  ResponseEntity<?> postAnswerWithId(@AuthenticationPrincipal UserDetails details,
                                                @PathVariable long id, @RequestBody() Answer answer) {
-        return quizzesService.getSolveWithId(id, answer.getAnswer());
+        return quizzesService.getSolveWithId(id, answer.getAnswer(), details);
     }
 
     @DeleteMapping("/api/quizzes/{id}")
     public  ResponseEntity<?> deleteAnswerWithId(@AuthenticationPrincipal UserDetails details,
                                                  @PathVariable long id) {
         if (quizzesService.getQuestionById(id).getStatusCode() == HttpStatus.OK) {
-            Quizzes quizzes = quizzesService.repository.findById(id).get();
+            Quizzes quizzes = quizzesService.repositoryWithCrud.findById(id).get();
             if (quizzes.getEmail().equals(details.getUsername())) {
                 quizzesService.deleteById(id);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

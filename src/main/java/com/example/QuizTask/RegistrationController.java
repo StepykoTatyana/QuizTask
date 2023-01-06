@@ -18,12 +18,12 @@ public class RegistrationController {
 
     @PostMapping("/api/register")
     public ResponseEntity<?> register(@Validated  @RequestBody Users users) {
-        if (userRepo.findByEmail(users.getEmail()) != null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
+//        if (userRepo.findByEmail(users.getEmail()) != null) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        } else {
             users.setPassword(encoder.encode(users.getPassword()));
             userRepo.save(users);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
+        //}
     }
 }
